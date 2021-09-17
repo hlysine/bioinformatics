@@ -1,23 +1,11 @@
 package io.github.henryyslin.bioinformatics.lib;
 
-import java.util.Objects;
-
-public class RnaSequence {
-    private String sequence;
+public class RnaSequence extends Sequence<RnaSequence> {
 
     public RnaSequence(String sequence) {
-        this.sequence = sequence;
+        super(sequence);
     }
 
-    public String getSequence() {
-        return sequence;
-    }
-
-    /**
-     * Check whether the sequence string is valid.
-     *
-     * @return Whether the sequence string is valid.
-     */
     public boolean isValid() {
         for (int i = 0; i < sequence.length(); i++) {
             char c = sequence.charAt(i);
@@ -26,21 +14,6 @@ public class RnaSequence {
         return true;
     }
 
-    /**
-     * Return the sequence string with direction annotation.
-     *
-     * @return A sequence string with direction annotation.
-     */
-    public String toAnnotatedString() {
-        return toAnnotatedString(false);
-    }
-
-    /**
-     * Return the sequence string with direction annotation.
-     *
-     * @param isReversed Whether this sequence is reversed (i.e. from 3' to 5').
-     * @return A sequence string with direction annotation.
-     */
     public String toAnnotatedString(boolean isReversed) {
         StringBuilder sb = new StringBuilder();
 
@@ -52,35 +25,8 @@ public class RnaSequence {
         return sb.toString();
     }
 
-    /**
-     * Clone this RNA sequence.
-     *
-     * @return A clone of this RNA sequence.
-     */
     public RnaSequence clone() {
         return new RnaSequence(sequence);
-    }
-
-    /**
-     * Remove a range of this RNA sequence.
-     *
-     * @param start       The 1-based index to start removing chars.
-     * @param deleteCount The number of chars to remove.
-     * @return The same RnaSequence with the specified range removed.
-     */
-    public RnaSequence splice(int start, int deleteCount) {
-        sequence = sequence.substring(0, start - 1) + sequence.substring(start + deleteCount - 1);
-        return this;
-    }
-
-    /**
-     * Reverse this RNA sequence.
-     *
-     * @return The same RnaSequence.
-     */
-    public RnaSequence reverse() {
-        sequence = new StringBuilder(sequence).reverse().toString();
-        return this;
     }
 
     /**

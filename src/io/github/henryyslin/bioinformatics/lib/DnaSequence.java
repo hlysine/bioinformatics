@@ -1,21 +1,10 @@
 package io.github.henryyslin.bioinformatics.lib;
 
-public class DnaSequence {
-    private String sequence;
-
+public class DnaSequence extends Sequence<DnaSequence> {
     public DnaSequence(String sequence) {
-        this.sequence = sequence;
+        super(sequence);
     }
 
-    public String getSequence() {
-        return sequence;
-    }
-
-    /**
-     * Check whether the sequence string is valid.
-     *
-     * @return Whether the sequence string is valid.
-     */
     public boolean isValid() {
         for (int i = 0; i < sequence.length(); i++) {
             char c = sequence.charAt(i);
@@ -24,21 +13,6 @@ public class DnaSequence {
         return true;
     }
 
-    /**
-     * Return the sequence string with direction annotation.
-     *
-     * @return A sequence string with direction annotation.
-     */
-    public String toAnnotatedString() {
-        return toAnnotatedString(false);
-    }
-
-    /**
-     * Return the sequence string with direction annotation.
-     *
-     * @param isReversed Whether this sequence is reversed (i.e. from 3' to 5').
-     * @return A sequence string with direction annotation.
-     */
     public String toAnnotatedString(boolean isReversed) {
         StringBuilder sb = new StringBuilder();
 
@@ -50,41 +24,14 @@ public class DnaSequence {
         return sb.toString();
     }
 
-    /**
-     * Clone this DNA sequence.
-     *
-     * @return A clone of this DNA sequence.
-     */
     public DnaSequence clone() {
         return new DnaSequence(sequence);
     }
 
     /**
-     * Remove a range of this DNA sequence.
-     *
-     * @param start       The 1-based index to start removing chars.
-     * @param deleteCount The number of chars to remove.
-     * @return The same DnaSequence with the specified range removed.
-     */
-    public DnaSequence splice(int start, int deleteCount) {
-        sequence = sequence.substring(0, start - 1) + sequence.substring(start + deleteCount - 1);
-        return this;
-    }
-
-    /**
-     * Reverse this DNA sequence.
-     *
-     * @return The same DnaSequence.
-     */
-    public DnaSequence reverse() {
-        sequence = new StringBuilder(sequence).reverse().toString();
-        return this;
-    }
-
-    /**
      * Get the complementary DNA sequence. The sequence is not reversed.
      *
-     * @return A new DnaSequence.
+     * @return The same DnaSequence.
      */
     public DnaSequence toComplementarySequence() {
         StringBuilder sb = new StringBuilder();
@@ -92,7 +39,8 @@ public class DnaSequence {
             char c = sequence.charAt(i);
             sb.append(SequenceUtils.getComplementaryChar(c));
         }
-        return new DnaSequence(sb.toString());
+        sequence = sb.toString();
+        return this;
     }
 
     /**
