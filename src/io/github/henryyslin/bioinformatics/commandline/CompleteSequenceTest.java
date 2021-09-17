@@ -1,21 +1,21 @@
 package io.github.henryyslin.bioinformatics.commandline;
 
-import io.github.henryyslin.bioinformatics.lib.DnaSequence;
-import io.github.henryyslin.bioinformatics.lib.RnaSequence;
+import io.github.henryyslin.bioinformatics.lib.dna.CompleteDnaSequence;
+import io.github.henryyslin.bioinformatics.lib.rna.CompleteRnaSequence;
 
-public class LibTest {
+public class CompleteSequenceTest {
 
     public static void main(String[] args) {
-        DnaSequence codingStrand = new DnaSequence("CACTATCGCTAGTCC");
-        DnaSequence templateStrand = codingStrand.clone().toComplementarySequence();
+        CompleteDnaSequence codingStrand = new CompleteDnaSequence("CACTATCGCTAGTCC");
+        CompleteDnaSequence templateStrand = codingStrand.clone().toComplementarySequence();
 
         System.out.println("Coding strand:                 " + codingStrand.toAnnotatedString());
         System.out.println("Template strand:               " + templateStrand.toAnnotatedString(true));
         System.out.println("Verify coding strand:          " + codingStrand.isValid());
         System.out.println("Verify template strand:        " + templateStrand.isValid());
 
-        RnaSequence rna = codingStrand.transcribeAsCoding();
-        RnaSequence complementaryRna = codingStrand.transcribeAsTemplate();
+        CompleteRnaSequence rna = codingStrand.transcribeAsCoding();
+        CompleteRnaSequence complementaryRna = codingStrand.transcribeAsTemplate();
 
         System.out.println("Transcribed RNA:               " + rna.toAnnotatedString());
         System.out.println("Complementary transcribed RNA: " + complementaryRna.toAnnotatedString(true));

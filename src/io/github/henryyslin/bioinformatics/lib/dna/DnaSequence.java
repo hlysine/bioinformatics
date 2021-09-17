@@ -1,16 +1,12 @@
-package io.github.henryyslin.bioinformatics.lib;
+package io.github.henryyslin.bioinformatics.lib.dna;
 
-public class DnaSequence extends Sequence<DnaSequence> {
+import io.github.henryyslin.bioinformatics.lib.rna.RnaSequence;
+import io.github.henryyslin.bioinformatics.lib.Sequence;
+import io.github.henryyslin.bioinformatics.lib.SequenceUtils;
+
+public abstract class DnaSequence<T extends DnaSequence<T>> extends Sequence<T> {
     public DnaSequence(String sequence) {
         super(sequence);
-    }
-
-    public boolean isValid() {
-        for (int i = 0; i < sequence.length(); i++) {
-            char c = sequence.charAt(i);
-            if (!SequenceUtils.isDnaChar(c)) return false;
-        }
-        return true;
     }
 
     public String toAnnotatedString(boolean isReversed) {
@@ -24,23 +20,22 @@ public class DnaSequence extends Sequence<DnaSequence> {
         return sb.toString();
     }
 
-    public DnaSequence clone() {
-        return new DnaSequence(sequence);
-    }
+    protected abstract <TSequence extends RnaSequence<TSequence>> TSequence getRnaCounterPart(String sequence);
 
     /**
      * Get the complementary DNA sequence. The sequence is not reversed.
      *
      * @return The same DnaSequence.
      */
-    public DnaSequence toComplementarySequence() {
+    @SuppressWarnings("unchecked")
+    public T toComplementarySequence() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < sequence.length(); i++) {
             char c = sequence.charAt(i);
             sb.append(SequenceUtils.getComplementaryChar(c));
         }
         sequence = sb.toString();
-        return this;
+        return (T)this;
     }
 
     /**
@@ -49,8 +44,8 @@ public class DnaSequence extends Sequence<DnaSequence> {
      *
      * @return A new RnaSequence.
      */
-    public RnaSequence transcribeAsCoding() {
-        return new RnaSequence(sequence.replace('T', 'U'));
+    public <TSequence extends RnaSequence<TSequence>> TSequence transcribeAsCoding() {
+        return getRnaCounterPart(sequence.replace('T', 'U'));
     }
 
     /**
@@ -59,12 +54,12 @@ public class DnaSequence extends Sequence<DnaSequence> {
      *
      * @return A new RnaSequence.
      */
-    public RnaSequence transcribeAsTemplate() {
+    public <TSequence extends RnaSequence<TSequence>> TSequence transcribeAsTemplate() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < sequence.length(); i++) {
             char c = sequence.charAt(i);
             sb.append(SequenceUtils.getTranscribedChar(c));
         }
-        return new RnaSequence(sb.toString());
+        return getRnaCounterPart(sb.toString());
     }
 }

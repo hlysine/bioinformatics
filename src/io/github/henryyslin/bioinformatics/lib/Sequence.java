@@ -52,7 +52,20 @@ public abstract class Sequence<T extends Sequence<T>> {
     @SuppressWarnings("unchecked")
     public T splice(int start, int deleteCount) {
         sequence = sequence.substring(0, start) + sequence.substring(start + deleteCount);
-        return (T)this;
+        return (T) this;
+    }
+
+    /**
+     * Take a sub-sequence, discarding the rest of the sequence.
+     *
+     * @param start  The 0-based index to start preserving chars.
+     * @param length The number of chars to keep.
+     * @return The same Sequence with the specified range kept and others removed.
+     */
+    @SuppressWarnings("unchecked")
+    public T subsequence(int start, int length) {
+        sequence = sequence.substring(start, start + length);
+        return (T) this;
     }
 
     /**
@@ -63,6 +76,6 @@ public abstract class Sequence<T extends Sequence<T>> {
     @SuppressWarnings("unchecked")
     public T reverse() {
         sequence = new StringBuilder(sequence).reverse().toString();
-        return (T)this;
+        return (T) this;
     }
 }

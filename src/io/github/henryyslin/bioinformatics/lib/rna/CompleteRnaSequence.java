@@ -1,8 +1,13 @@
-package io.github.henryyslin.bioinformatics.lib;
+package io.github.henryyslin.bioinformatics.lib.rna;
 
-public class RnaSequence extends Sequence<RnaSequence> {
+import io.github.henryyslin.bioinformatics.lib.AminoAcidSequence;
+import io.github.henryyslin.bioinformatics.lib.Codon;
+import io.github.henryyslin.bioinformatics.lib.SequenceUtils;
+import io.github.henryyslin.bioinformatics.lib.dna.CompleteDnaSequence;
+import io.github.henryyslin.bioinformatics.lib.dna.DnaSequence;
 
-    public RnaSequence(String sequence) {
+public class CompleteRnaSequence extends RnaSequence<CompleteRnaSequence> {
+    public CompleteRnaSequence(String sequence) {
         super(sequence);
     }
 
@@ -14,42 +19,14 @@ public class RnaSequence extends Sequence<RnaSequence> {
         return true;
     }
 
-    public String toAnnotatedString(boolean isReversed) {
-        StringBuilder sb = new StringBuilder();
-
-        if (isReversed)
-            sb.append("3'-").append(sequence).append("-5'");
-        else
-            sb.append("5'-").append(sequence).append("-3'");
-
-        return sb.toString();
+    public CompleteRnaSequence clone() {
+        return new CompleteRnaSequence(sequence);
     }
 
-    public RnaSequence clone() {
-        return new RnaSequence(sequence);
-    }
-
-    /**
-     * Get the original DNA coding strand that give rise to this RNA sequence.
-     *
-     * @return A new DnaSequence.
-     */
-    public DnaSequence getCodingDna() {
-        return new DnaSequence(sequence.replace('U', 'T'));
-    }
-
-    /**
-     * Get the original DNA template strand that give rise to this RNA sequence.
-     *
-     * @return A new DnaSequence.
-     */
-    public DnaSequence getTemplateDna() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < sequence.length(); i++) {
-            char c = sequence.charAt(i);
-            sb.append(SequenceUtils.getUntranscribedChar(c));
-        }
-        return new DnaSequence(sb.toString());
+    @Override
+    @SuppressWarnings("unchecked")
+    protected CompleteDnaSequence getDnaCounterPart(String sequence) {
+        return new CompleteDnaSequence(sequence);
     }
 
     /**
@@ -104,4 +81,3 @@ public class RnaSequence extends Sequence<RnaSequence> {
         throw new IllegalStateException("The current sequence has no stop codon.");
     }
 }
-

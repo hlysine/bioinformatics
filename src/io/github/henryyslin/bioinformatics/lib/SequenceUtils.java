@@ -32,8 +32,7 @@ public class SequenceUtils {
      */
     public static boolean isAminoAcidChar(char c) {
         if (c < 'A' || c > 'Z') return false;
-        if (c == 'B' || c == 'J' || c == 'O' || c == 'U' || c == 'X' || c == 'Z') return false;
-        return true;
+        return c != 'B' && c != 'J' && c != 'O' && c != 'U' && c != 'X' && c != 'Z';
     }
 
     /**
@@ -53,6 +52,8 @@ public class SequenceUtils {
                 return 'A';
             case 'G':
                 return 'C';
+            case '_':
+                return '_';
             default:
                 throw new InvalidParameterException("The given char (" + c + ") is not a valid DNA char.");
         }
@@ -75,6 +76,8 @@ public class SequenceUtils {
                 return 'A';
             case 'G':
                 return 'C';
+            case '_':
+                return '_';
             default:
                 throw new InvalidParameterException("The given char (" + c + ") is not a valid DNA char.");
         }
@@ -97,6 +100,8 @@ public class SequenceUtils {
                 return 'A';
             case 'G':
                 return 'C';
+            case '_':
+                return '_';
             default:
                 throw new InvalidParameterException("The given char (" + c + ") is not a valid RNA char.");
         }
