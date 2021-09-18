@@ -1,6 +1,6 @@
 package io.github.henryyslin.bioinformatics.lib;
 
-public class AminoAcidSequence extends Sequence<AminoAcidSequence> {
+public class AminoAcidSequence extends SequenceBase<AminoAcidSequence> {
 
     public AminoAcidSequence(String sequence) {
         super(sequence);

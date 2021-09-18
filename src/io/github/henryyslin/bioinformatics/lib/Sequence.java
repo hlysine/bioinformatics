@@ -1,29 +1,21 @@
 package io.github.henryyslin.bioinformatics.lib;
 
-public abstract class Sequence<T extends Sequence<T>> {
-    protected String sequence;
-
-    public Sequence(String sequence) {
-        this.sequence = sequence;
-    }
-
-    public String getSequence() {
-        return sequence;
-    }
+public interface Sequence<T extends Sequence<T>> {
+    String getSequence();
 
     /**
      * Check whether the sequence string is valid.
      *
      * @return Whether the sequence string is valid.
      */
-    public abstract boolean isValid();
+    boolean isValid();
 
     /**
      * Return the sequence string with direction annotation.
      *
      * @return A sequence string with direction annotation.
      */
-    public String toAnnotatedString() {
+    default String toAnnotatedString() {
         return toAnnotatedString(false);
     }
 
@@ -33,14 +25,14 @@ public abstract class Sequence<T extends Sequence<T>> {
      * @param isReversed Whether this sequence is reversed.
      * @return A sequence string with direction annotation.
      */
-    public abstract String toAnnotatedString(boolean isReversed);
+    String toAnnotatedString(boolean isReversed);
 
     /**
      * Clone this sequence.
      *
      * @return A clone of this sequence.
      */
-    public abstract T clone();
+    T clone();
 
     /**
      * Remove a range of this sequence.
@@ -49,11 +41,7 @@ public abstract class Sequence<T extends Sequence<T>> {
      * @param deleteCount The number of chars to remove.
      * @return The same Sequence with the specified range removed.
      */
-    @SuppressWarnings("unchecked")
-    public T splice(int start, int deleteCount) {
-        sequence = sequence.substring(0, start) + sequence.substring(start + deleteCount);
-        return (T) this;
-    }
+    T splice(int start, int deleteCount);
 
     /**
      * Take a sub-sequence, discarding the rest of the sequence.
@@ -62,20 +50,12 @@ public abstract class Sequence<T extends Sequence<T>> {
      * @param length The number of chars to keep.
      * @return The same Sequence with the specified range kept and others removed.
      */
-    @SuppressWarnings("unchecked")
-    public T subsequence(int start, int length) {
-        sequence = sequence.substring(start, start + length);
-        return (T) this;
-    }
+    T subsequence(int start, int length);
 
     /**
      * Reverse this sequence.
      *
      * @return The same Sequence.
      */
-    @SuppressWarnings("unchecked")
-    public T reverse() {
-        sequence = new StringBuilder(sequence).reverse().toString();
-        return (T) this;
-    }
+    T reverse();
 }

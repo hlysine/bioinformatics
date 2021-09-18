@@ -52,8 +52,8 @@ public class SequenceUtils {
                 return 'A';
             case 'G':
                 return 'C';
-            case '_':
-                return '_';
+            case GapChar:
+                return GapChar;
             default:
                 throw new InvalidParameterException("The given char (" + c + ") is not a valid DNA char.");
         }
@@ -76,8 +76,8 @@ public class SequenceUtils {
                 return 'A';
             case 'G':
                 return 'C';
-            case '_':
-                return '_';
+            case GapChar:
+                return GapChar;
             default:
                 throw new InvalidParameterException("The given char (" + c + ") is not a valid DNA char.");
         }
@@ -100,8 +100,8 @@ public class SequenceUtils {
                 return 'A';
             case 'G':
                 return 'C';
-            case '_':
-                return '_';
+            case GapChar:
+                return GapChar;
             default:
                 throw new InvalidParameterException("The given char (" + c + ") is not a valid RNA char.");
         }
@@ -109,6 +109,7 @@ public class SequenceUtils {
 
     public static final String StartCodon = "AUG";
     public static final String StopCodonSymbol = "*";
+    public static final char GapChar = '_';
 
     public static final Codon[] CodonTable = {
             new Codon("UUU", "F"),

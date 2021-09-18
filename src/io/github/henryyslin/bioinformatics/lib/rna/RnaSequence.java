@@ -1,13 +1,10 @@
 package io.github.henryyslin.bioinformatics.lib.rna;
 
-import io.github.henryyslin.bioinformatics.lib.AminoAcidSequence;
-import io.github.henryyslin.bioinformatics.lib.Codon;
-import io.github.henryyslin.bioinformatics.lib.Sequence;
+import io.github.henryyslin.bioinformatics.lib.SequenceBase;
 import io.github.henryyslin.bioinformatics.lib.SequenceUtils;
-import io.github.henryyslin.bioinformatics.lib.dna.CompleteDnaSequence;
 import io.github.henryyslin.bioinformatics.lib.dna.DnaSequence;
 
-public abstract class RnaSequence<T extends RnaSequence<T>> extends Sequence<T> {
+public abstract class RnaSequence<T extends RnaSequence<T>> extends SequenceBase<T> {
 
     public RnaSequence(String sequence) {
         super(sequence);

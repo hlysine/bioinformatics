@@ -1,10 +1,10 @@
 package io.github.henryyslin.bioinformatics.lib.dna;
 
-import io.github.henryyslin.bioinformatics.lib.rna.RnaSequence;
-import io.github.henryyslin.bioinformatics.lib.Sequence;
+import io.github.henryyslin.bioinformatics.lib.SequenceBase;
 import io.github.henryyslin.bioinformatics.lib.SequenceUtils;
+import io.github.henryyslin.bioinformatics.lib.rna.RnaSequence;
 
-public abstract class DnaSequence<T extends DnaSequence<T>> extends Sequence<T> {
+public abstract class DnaSequence<T extends DnaSequence<T>> extends SequenceBase<T> {
     public DnaSequence(String sequence) {
         super(sequence);
     }
