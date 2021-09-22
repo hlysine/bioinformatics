@@ -1,4 +1,4 @@
-package io.github.henryyslin.bioinformatics.commandline;
+package io.github.henryyslin.bioinformatics.tests;
 
 import io.github.henryyslin.bioinformatics.lib.alignment.SequenceAlignment;
 import io.github.henryyslin.bioinformatics.lib.dna.AlignedDnaSequence;
