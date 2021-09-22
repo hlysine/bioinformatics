@@ -1,6 +1,8 @@
 package io.github.henryyslin.bioinformatics.tests;
 
-import io.github.henryyslin.bioinformatics.lib.alignment.SequenceAlignment;
+import io.github.henryyslin.bioinformatics.lib.alignment.SequenceAlignmentUtils;
+import io.github.henryyslin.bioinformatics.lib.alignment.similarity.SimilarityScoringInfo;
+import io.github.henryyslin.bioinformatics.lib.alignment.similarity.SimpleSimilarity;
 import io.github.henryyslin.bioinformatics.lib.dna.AlignedDnaSequence;
 import io.github.henryyslin.bioinformatics.lib.rna.AlignedRnaSequence;
 
@@ -25,9 +27,9 @@ public class AlignedSequenceTest {
         AlignedDnaSequence strand3 = new AlignedDnaSequence("CACTA_CGCTATTCC");
 
         System.out.println("Second strand:                 " + strand2.toAnnotatedString());
-        System.out.println("Alignment validity:            " + SequenceAlignment.isValid(codingStrand, strand2));
-        System.out.println("Alignment score:               " + SequenceAlignment.simpleSimilarity(codingStrand, strand2).withMatchScore(10).withMismatchScore(-10).withIndelScore(-20).compute());
+        System.out.println("Alignment validity:            " + SequenceAlignmentUtils.isValid(codingStrand, strand2));
+        System.out.println("Alignment score:               " + new SimpleSimilarity<AlignedDnaSequence>(new SimilarityScoringInfo().withIndelScore(-20).withMismatchScore(-10).withMatchScore(10)).compute(codingStrand, strand2));
         System.out.println("Third strand:                  " + strand3.toAnnotatedString());
-        System.out.println("Alignment validity:            " + SequenceAlignment.isValid(codingStrand, strand3));
+        System.out.println("Alignment validity:            " + SequenceAlignmentUtils.isValid(codingStrand, strand3));
     }
 }
