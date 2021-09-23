@@ -1,6 +1,8 @@
 package io.github.henryyslin.bioinformatics.lib.alignment.similarity;
 
-public class SimilarityScoringInfo {
+import io.github.henryyslin.bioinformatics.lib.SequenceUtils;
+
+public class SimpleSimilarityScoringScheme implements SimilarityScoringScheme {
     private int matchScore = 1;
     private int mismatchScore = -1;
     private int indelScore = -2;
@@ -23,7 +25,7 @@ public class SimilarityScoringInfo {
      * @param score The new score added for each match.
      * @return The same SimpleSimilarity object.
      */
-    public SimilarityScoringInfo withMatchScore(int score) {
+    public SimpleSimilarityScoringScheme withMatchScore(int score) {
         matchScore = score;
         return this;
     }
@@ -34,7 +36,7 @@ public class SimilarityScoringInfo {
      * @param score The new score added for each mismatch.
      * @return The same SimpleSimilarity object.
      */
-    public SimilarityScoringInfo withMismatchScore(int score) {
+    public SimpleSimilarityScoringScheme withMismatchScore(int score) {
         mismatchScore = score;
         return this;
     }
@@ -45,8 +47,15 @@ public class SimilarityScoringInfo {
      * @param score The new score added for each indel.
      * @return The same SimpleSimilarity object.
      */
-    public SimilarityScoringInfo withIndelScore(int score) {
+    public SimpleSimilarityScoringScheme withIndelScore(int score) {
         indelScore = score;
         return this;
+    }
+
+    @Override
+    public int getScore(char char1, char char2) {
+        if (char1 == char2) return matchScore;
+        if (char1 == SequenceUtils.GapChar || char2 == SequenceUtils.GapChar) return indelScore;
+        return mismatchScore;
     }
 }

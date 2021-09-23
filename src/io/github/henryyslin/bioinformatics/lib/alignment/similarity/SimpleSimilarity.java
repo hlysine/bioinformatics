@@ -4,8 +4,8 @@ import io.github.henryyslin.bioinformatics.lib.SequenceUtils;
 import io.github.henryyslin.bioinformatics.lib.alignment.AlignedSequence;
 
 public class SimpleSimilarity<T extends AlignedSequence<T>> extends SimilarityAlgorithm<T> {
-    public SimpleSimilarity(SimilarityScoringInfo scoringInfo) {
-        super(scoringInfo);
+    public SimpleSimilarity(SimilarityScoringScheme scoreProvider) {
+        super(scoreProvider);
     }
 
     public int compute(T sequence1, T sequence2) throws IllegalStateException {
@@ -26,13 +26,7 @@ public class SimpleSimilarity<T extends AlignedSequence<T>> extends SimilarityAl
                 throw new IllegalStateException("Cannot compute alignment score: both sequences have gaps in position " + i + ".");
             }
 
-            if (c1 == SequenceUtils.GapChar || c2 == SequenceUtils.GapChar) {
-                score += scoringInfo.getIndelScore();
-            } else if (c1 != c2) {
-                score += scoringInfo.getMismatchScore();
-            } else {
-                score += scoringInfo.getMatchScore();
-            }
+            score += scoringScheme.getScore(c1, c2);
         }
 
         return score;
