@@ -47,13 +47,18 @@ public class OptimalGlobalAlignment {
 
     public static void main(String[] args) {
         Scanner console = new Scanner(System.in);
+        System.out.print("Match score: ");
         int matchScore = console.nextInt();
         console.nextLine();
+        System.out.print("Mismatch score: ");
         int mismatchScore = console.nextInt();
         console.nextLine();
+        System.out.print("Indel score: ");
         int indelScore = console.nextInt();
         console.nextLine();
+        System.out.print("Sequence 1: ");
         String sequence1 = console.nextLine();
+        System.out.print("Sequence 2: ");
         String sequence2 = console.nextLine();
 
         int[][] scoreMatrix = new int[sequence1.length() + 1][sequence2.length() + 1];
@@ -85,6 +90,7 @@ public class OptimalGlobalAlignment {
             }
         }
 
+        System.out.println("Arrow matrix:");
         for (int[] row : arrowMatrix) {
             for (int col : row) {
                 System.out.print(col + " ");
@@ -94,6 +100,7 @@ public class OptimalGlobalAlignment {
 
         System.out.println();
 
+        System.out.println("Score matrix with paths:");
         for (int i = 0; i < sequence1.length() + 1; i++) {
             for (int j = 0; j < sequence2.length() + 1; j++) {
                 System.out.print(String.format("%1$3s", scoreMatrix[i][j]) + ((arrowMatrix[i][j] & 1) > 0 ? "---" : "   "));
@@ -105,6 +112,7 @@ public class OptimalGlobalAlignment {
             System.out.println();
         }
 
+        System.out.println("Optimal alignments:");
         List<Alignment> alignments = traceback(sequence1, sequence2, arrowMatrix, 0, 0);
         for (Alignment alignment : alignments) {
             System.out.println("r=" + alignment.sequence1);
