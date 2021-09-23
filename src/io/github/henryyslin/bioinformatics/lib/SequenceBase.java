@@ -21,6 +21,14 @@ public abstract class SequenceBase<T extends SequenceBase<T>> implements Sequenc
 
     public abstract T clone();
 
+    public char charAt(int index) {
+        return sequence.charAt(index);
+    }
+
+    public int length() {
+        return sequence.length();
+    }
+
     @SuppressWarnings("unchecked")
     public T splice(int start, int deleteCount) {
         sequence = sequence.substring(0, start) + sequence.substring(start + deleteCount);

@@ -3,9 +3,9 @@ package io.github.henryyslin.bioinformatics.lib.alignment.similarity;
 import io.github.henryyslin.bioinformatics.lib.alignment.AlignedSequence;
 
 public abstract class SimilarityAlgorithm<T extends AlignedSequence<T>> {
-    SimilarityScoringScheme scoringScheme;
+    ScoringScheme scoringScheme;
 
-    public SimilarityAlgorithm(SimilarityScoringScheme scoringScheme) {
+    public SimilarityAlgorithm(ScoringScheme scoringScheme) {
         this.scoringScheme = scoringScheme;
     }
 

@@ -4,8 +4,8 @@ import io.github.henryyslin.bioinformatics.lib.SequenceUtils;
 import io.github.henryyslin.bioinformatics.lib.alignment.AlignedSequence;
 
 public class SimpleSimilarity<T extends AlignedSequence<T>> extends SimilarityAlgorithm<T> {
-    public SimpleSimilarity(SimilarityScoringScheme scoreProvider) {
-        super(scoreProvider);
+    public SimpleSimilarity(ScoringScheme scoringScheme) {
+        super(scoringScheme);
     }
 
     public int compute(T sequence1, T sequence2) throws IllegalStateException {

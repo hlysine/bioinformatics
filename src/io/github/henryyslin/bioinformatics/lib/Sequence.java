@@ -35,6 +35,21 @@ public interface Sequence<T extends Sequence<T>> {
     T clone();
 
     /**
+     * Get the char at a specific position.
+     *
+     * @param index The zero-based position in sequence.
+     * @return The char at that position in the sequence.
+     */
+    char charAt(int index);
+
+    /**
+     * Get the length of this sequence.
+     *
+     * @return The length of this sequence.
+     */
+    int length();
+
+    /**
      * Remove a range of this sequence.
      *
      * @param start       The 0-based index to start removing chars.
