@@ -1,10 +1,10 @@
-package io.github.henryyslin.bioinformatics.assignments;
+package io.github.henryyslin.bioinformatics.sandbox;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Assignment1Question2 {
+public class OptimalLocalAlignment {
     private static class Alignment {
         String sequence1;
         String sequence2;
