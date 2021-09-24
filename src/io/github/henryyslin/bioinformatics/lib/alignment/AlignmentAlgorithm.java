@@ -7,10 +7,10 @@ import java.util.List;
 
 public abstract class AlignmentAlgorithm<T extends AlignedSequence<T>> {
     ScoringScheme scoringScheme;
-    Class<T> cls;
+    Class<T> sequenceClass;
 
-    public AlignmentAlgorithm(Class<T> cls, ScoringScheme scoringScheme) {
-        this.cls = cls;
+    public AlignmentAlgorithm(Class<T> sequenceClass, ScoringScheme scoringScheme) {
+        this.sequenceClass = sequenceClass;
         this.scoringScheme = scoringScheme;
     }
 

@@ -2,12 +2,11 @@ package io.github.henryyslin.bioinformatics.lib.alignment;
 
 import io.github.henryyslin.bioinformatics.lib.Sequence;
 import io.github.henryyslin.bioinformatics.lib.alignment.similarity.ScoringScheme;
-import io.github.henryyslin.bioinformatics.sandbox.OptimalGlobalAlignment;
 
-import java.lang.reflect.InvocationTargetException;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PairwiseOptimalGlobalAlignment<T extends AlignedSequence<T>> extends AlignmentAlgorithm<T> {
 
@@ -15,37 +14,29 @@ public class PairwiseOptimalGlobalAlignment<T extends AlignedSequence<T>> extend
         super(cls, scoringScheme);
     }
 
-    private T createSequence(String sequence) {
-        try {
-            return cls.getDeclaredConstructor(String.class).newInstance(sequence);
-        } catch (Exception ex) {
-            return null;
-        }
-    }
-
-    private List<Alignment<T>> traceback(Sequence<?> seq1, Sequence<?> seq2, int[][] arrowMatrix, int i, int j) {
-        List<Alignment<T>> alignments = new ArrayList<>();
+    private List<InternalPairwiseAlignment> traceback(String seq1, String seq2, int[][] arrowMatrix, int i, int j) {
+        List<InternalPairwiseAlignment> alignments = new ArrayList<>();
         if (i == seq1.length() && j == seq2.length()) {
-            alignments.add(new Alignment<>(createSequence(""), createSequence("")));
+            alignments.add(new InternalPairwiseAlignment("", ""));
         } else {
             if ((arrowMatrix[i][j] & 1) > 0) {
                 traceback(seq1, seq2, arrowMatrix, i, j + 1).forEach(alignment -> {
-                    alignment.setSequence1(createSequence("_" + alignment.getSequence1().getSequence()));
-                    alignment.setSequence2(createSequence(seq2.charAt(j) + alignment.getSequence2().getSequence()));
+                    alignment.sequence1 = "_" + alignment.sequence1;
+                    alignment.sequence2 = seq2.charAt(j) + alignment.sequence2;
                     alignments.add(alignment);
                 });
             }
             if ((arrowMatrix[i][j] & 2) > 0) {
                 traceback(seq1, seq2, arrowMatrix, i + 1, j + 1).forEach(alignment -> {
-                    alignment.setSequence1(createSequence(seq1.charAt(i) + alignment.getSequence1().getSequence()));
-                    alignment.setSequence2(createSequence(seq2.charAt(j) + alignment.getSequence2().getSequence()));
+                    alignment.sequence1 = seq1.charAt(i) + alignment.sequence1;
+                    alignment.sequence2 = seq2.charAt(j) + alignment.sequence2;
                     alignments.add(alignment);
                 });
             }
             if ((arrowMatrix[i][j] & 4) > 0) {
                 traceback(seq1, seq2, arrowMatrix, i + 1, j).forEach(alignment -> {
-                    alignment.setSequence1(createSequence(seq1.charAt(i) + alignment.getSequence1().getSequence()));
-                    alignment.setSequence2(createSequence("_" + alignment.getSequence2().getSequence()));
+                    alignment.sequence1 = seq1.charAt(i) + alignment.sequence1;
+                    alignment.sequence2 = "_" + alignment.sequence2;
                     alignments.add(alignment);
                 });
             }
@@ -89,6 +80,9 @@ public class PairwiseOptimalGlobalAlignment<T extends AlignedSequence<T>> extend
             }
         }
 
-        return traceback(sequence1, sequence2, arrowMatrix, 0, 0);
+        return traceback(sequence1.getSequence(), sequence2.getSequence(), arrowMatrix, 0, 0)
+                .stream()
+                .map(alignment -> alignment.packageAlignment(sequenceClass))
+                .collect(Collectors.toList());
     }
 }
