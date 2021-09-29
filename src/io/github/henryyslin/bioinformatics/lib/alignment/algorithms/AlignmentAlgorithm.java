@@ -1,6 +1,8 @@
-package io.github.henryyslin.bioinformatics.lib.alignment;
+package io.github.henryyslin.bioinformatics.lib.alignment.algorithms;
 
 import io.github.henryyslin.bioinformatics.lib.Sequence;
+import io.github.henryyslin.bioinformatics.lib.alignment.AlignedSequence;
+import io.github.henryyslin.bioinformatics.lib.alignment.Alignment;
 import io.github.henryyslin.bioinformatics.lib.alignment.similarity.ScoringScheme;
 
 import java.util.List;

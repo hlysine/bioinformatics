@@ -1,5 +1,7 @@
 package io.github.henryyslin.bioinformatics.lib.alignment;
 
+import io.github.henryyslin.bioinformatics.lib.alignment.algorithms.AlignmentAlgorithm;
+import io.github.henryyslin.bioinformatics.lib.alignment.algorithms.PairwiseOptimalGlobalAlignment;
 import io.github.henryyslin.bioinformatics.lib.alignment.similarity.ScoringScheme;
 
 public class AlignmentFactory<T extends AlignedSequence<T>> {
