@@ -2,6 +2,7 @@ package io.github.henryyslin.bioinformatics.lib.alignment;
 
 import io.github.henryyslin.bioinformatics.lib.alignment.algorithms.AlignmentAlgorithm;
 import io.github.henryyslin.bioinformatics.lib.alignment.algorithms.PairwiseOptimalGlobalAlignment;
+import io.github.henryyslin.bioinformatics.lib.alignment.algorithms.PairwiseOptimalLocalAlignment;
 import io.github.henryyslin.bioinformatics.lib.alignment.similarity.ScoringScheme;
 
 public class AlignmentFactory<T extends AlignedSequence<T>> {
@@ -44,8 +45,9 @@ public class AlignmentFactory<T extends AlignedSequence<T>> {
     }
 
     public AlignmentAlgorithm<T> create() {
-        if (!scoringScheme.useAffineGapPenalty() && !local && !multiple && !heuristic) {
-            return new PairwiseOptimalGlobalAlignment<>(cls, scoringScheme);
+        if (!scoringScheme.useAffineGapPenalty() && !multiple && !heuristic) {
+            if (local) return new PairwiseOptimalLocalAlignment<>(cls, scoringScheme);
+            else return new PairwiseOptimalGlobalAlignment<>(cls, scoringScheme);
         }
         return null;
     }
