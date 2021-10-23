@@ -13,7 +13,7 @@ package io.github.henryyslin.bioinformatics.assignments;
 // http://www.cuhk.edu.hk/policy/academichonesty/
 //
 // Student Name: Lin Yik Shun
-// Student ID : 1155157489
+// Student ID: 1155157489
 
 import java.util.ArrayList;
 import java.util.List;
