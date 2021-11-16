@@ -86,7 +86,14 @@ public class Assignment3Question1 {
     }
 
     private static void printPositionWeightMatrix(int[][] positionWeightMatrix) {
-        for (int[] weightMatrix : positionWeightMatrix) {
+        System.out.print("  ");
+        for (int i = 0; i < positionWeightMatrix[0].length; i++) {
+            System.out.printf("%4d ", i + 1);
+        }
+        System.out.println();
+        for (int i = 0; i < positionWeightMatrix.length; i++) {
+            int[] weightMatrix = positionWeightMatrix[i];
+            System.out.print(toChar(i) + " ");
             for (int j = 0; j < weightMatrix.length; j++) {
                 int sum = 0;
                 for (int[] row : positionWeightMatrix) {
@@ -99,7 +106,7 @@ public class Assignment3Question1 {
     }
 
     private static HashMap<String, Integer> twoMerSpectra(String sequence) {
-        HashMap<String, Integer> result = new HashMap<String, Integer>();
+        HashMap<String, Integer> result = new HashMap<>();
         for (int i = 0; i < sequence.length() - 1; i++) {
             String twoMer = sequence.substring(i, i + 2);
             if (result.containsKey(twoMer)) {
@@ -133,9 +140,45 @@ public class Assignment3Question1 {
         return result;
     }
 
+    private static int factorial(int n) {
+        int ret = 1;
+        int i = 1;
+        while (i <= n) {
+            ret *= i;
+            i++;
+        }
+        return ret;
+    }
+
+    private static int combination(int n, int r) {
+        return factorial(n) / (factorial(r) * factorial(n - r));
+    }
+
     // compute the inner product of 3-gapped 2-mer spectra of two sequences
     private static int threeGappedTwoMerInnerProduct(String sequence1, String sequence2) {
-
+        int similarity = 0;
+        System.out.println("Initialize cumulative sum to " + similarity);
+        for (int i = 0; i < sequence1.length() - 4; i++) {
+            for (int j = 0; j < sequence2.length() - 4; j++) {
+                int mismatches = 0;
+                System.out.printf("Comparing %s (O1[%d-%d]) and %s (O2[%d-%d]):%n", sequence1.substring(i, i + 5), i + 1, i + 5, sequence2.substring(j, j + 5), j + 1, j + 5);
+                for (int k = 0; k < 5; k++) {
+                    if (sequence1.charAt(i + k) != sequence2.charAt(j + k)) {
+                        mismatches++;
+                    }
+                }
+                System.out.printf("There are %d mismatches%n", mismatches);
+                if (mismatches <= 3) {
+                    int contribution = combination(5 - mismatches, 2);
+                    similarity += contribution;
+                    System.out.print("Contribution: " + contribution);
+                } else {
+                    System.out.print("Contribution: 0");
+                }
+                System.out.println(", Current sum: " + similarity);
+            }
+        }
+        return similarity;
     }
 
     public static void main(String[] args) {
@@ -149,10 +192,13 @@ public class Assignment3Question1 {
                 "ATTCCGGCAG",
                 "GTTGCGCCAT",
         };
+
         System.out.println("Consensus sequence:");
         System.out.println(consensusSequence(sequences));
+
         System.out.println("Degenerate sequence:");
         System.out.println(degenerateSequence(sequences));
+
         System.out.println("Position weight matrix:");
         int[][] positionWeightMatrix = positionWeightMatrix(sequences);
         printPositionWeightMatrix(positionWeightMatrix);
@@ -171,13 +217,27 @@ public class Assignment3Question1 {
             }
             System.out.println();
         }
+
         System.out.println("Similarity matrix:");
         int[][] similarityMatrix = similarityMatrix(sequences);
-        for (int[] row : similarityMatrix) {
-            for (int i : row) {
-                System.out.printf("%3d", i);
+        System.out.print("   ");
+        for (int i = 0; i < sequences.length; i++) {
+            System.out.print(" O" + (i + 1));
+        }
+        System.out.println();
+        for (int i = 0; i < similarityMatrix.length; i++) {
+            int[] row = similarityMatrix[i];
+            System.out.print("O" + (i + 1) + " ");
+            for (int num : row) {
+                System.out.printf("%3d", num);
             }
             System.out.println();
         }
+
+        System.out.println("3-gapped 2-mer inner product:");
+        System.out.println("Final similarity: " + threeGappedTwoMerInnerProduct(sequences[0], sequences[1]));
+
+        System.out.println("Similarity 1: " + threeGappedTwoMerInnerProduct("CGCGGGCC", "GCCGGCGC"));
+        System.out.println("Similarity 2: " + threeGappedTwoMerInnerProduct("CGATCGCG", "ATATCGCT"));
     }
 }
